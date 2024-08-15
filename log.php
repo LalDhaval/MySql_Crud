@@ -1,5 +1,6 @@
 <?php
 
+    session_start();
     include 'config.php';
 
     $em = $_POST['email'];
@@ -10,6 +11,8 @@
     $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
     $count = mysqli_num_rows($result);
 
+    $_SESSION['un'] = $row['firstname'];
+    $_SESSION['ln'] = $row['lastname'];
     if($count == 1)
     {
         header('location:view.php');

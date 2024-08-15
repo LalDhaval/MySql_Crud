@@ -1,5 +1,6 @@
 <?php
 
+    session_start();
     include 'config.php';
     $sql = "SELECT * FROM register";
     $result = mysqli_query($conn, $sql);
@@ -13,6 +14,12 @@
     <title>Document</title>
 </head>
 <body>
+    <?php
+        if($_SESSION['un'] != "" && $_SESSION['ln'] != "" )
+        { ?>
+    <h1 align="right"><?php echo $_SESSION['un']." ".$_SESSION['ln']; ?></h1>
+    <br>
+    <h1 align="right"><a href="logout.php">Logout</a></h1>
     <center>
         <table border="1" cellpadding="15" cellspacing="0">
             <tr>
@@ -37,13 +44,28 @@
                             <td><?php echo $row['email']; ?></td>
                             <td><?php echo $row['password']; ?></td>
                             <td><?php echo $row['phone']; ?></td>
-                            <td><a href="delete.php?id=<?php echo $row['id']; ?>">Delete</a></td>
+                            <td><a href="delete.php?id=<?php echo $row['id']; ?>" onclick="return chk()">Delete</a></td>
                             <td><a href="update.php?id=<?php echo $row['id']; ?>">Edit</a></td>
                         </tr>
                     <?php }
                 }
             ?>
         </table>
+        <script>
+            function chk()
+            {
+                return confirm("Are You Sure you want to Delete This File??");
+            }
+        </script>
     </center>
+    <?php
+        }
+        else
+        { ?>
+            <script>
+                window.location.href = 'index.php';
+            </script>
+        <?php }
+    ?>
 </body>
 </html>
